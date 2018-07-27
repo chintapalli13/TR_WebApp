@@ -1,0 +1,3 @@
+recentBuildUrl = https://circleci.com/api/v1.1/recent-builds?circle-token=03dc9a9f0a2cfe00c80f27aaf0405e810680702d&limit=100
+testMetaDataUrl_a = https://circleci.com/api/v1.1/project/github/aldo-dev/mfind/
+testMetaDataUrl_b = '/tests?circle-token=03dc9a9f0a2cfe00c80f27aaf0405e810680702d'

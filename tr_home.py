@@ -12,7 +12,7 @@ def read_results(buildnumber):
 @app.route("/")
 @app.route("/home")
 def home():
-    buildnum = 3375
+    buildnum = 3380
     res = read_results(buildnum)
     labels = ['Id', 'Name', 'Result', 'Message']#, 'Start time', 'Stop time']
     rt = pd.DataFrame.from_records(res, columns=labels)

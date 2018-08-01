@@ -5,24 +5,36 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
         body            { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
-        a, h1, h2       { color: #377ba8; }
-        h1, h2          { margin: 0; }
-        h1              { border-bottom: 10px solid #eee; }
+        a, h1, h2       { color: #0a276b; }
+        h1, h2          { margin: 10; text-align: center; }
+        h1              { border-bottom: 5px solid #242c7f; }
         h2              { font-size: 1.2em; }
 
+        form {
+          float: left;
+          }
+
         table.dataframe, .dataframe th, .dataframe td {
-          border: none;
+          border: black;
           border-bottom: 1px solid #C8C8C8;
+          border-side: 1px solid #C8C8C8;
           border-collapse: collapse;
-          text-align: centre;
-          padding: 10px;
+
+          padding: 12px;
           margin-bottom: 100px;
-          font-size: 0.9em;
+
+        }
+
+        td {
+         font-size: 0.9em;
+         text-align: centre;
         }
 
         th {
-            background-color: #aeeaae;
-            color: black;
+            background-color: #212a3f;
+            color: white;
+            text-align: center;
+            font-size: 1.0em;
         }
         table tr th {
             page-break-inside: avoid;
@@ -34,34 +46,59 @@
            bottom: 0;
            width: 100%;
            height: 50px;
-           background-color: #0B2161;
+           background-color: #071538;
            color: white;
            text-align: center;
         }
-        tr:nth-child(odd)		{ background-color:#eee; }
+        p.copyright {
+            position: absolute;
+            width: 100%;
+            color: #fff;
+            line-height: 40px;
+            font-size: 0.9em;
+            text-align: center;
+            bottom:0;
+        }
+        tr:nth-child(odd)	{ background-color:#eee; }
         tr:nth-child(even)	{ background-color:#fff; }
-        tr:hover
+
     </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Test Results</h2>
-  <p>Build: {{build}}</p>
-    <p>Date: 2108-07-15 </p>
-    <p>Total tests: 18</p>
-    <p>Pass: 18</p>
-    <p>Fail: 0</p>
+  <h1>MFIND Automated Test Results Dashboard</h1>
+  <br>
+  <form action="{{url_for('get_new_results_from_CI')}}" method="get">
+    <input type="Submit" value="Fetch new results"/>
+    <p> {{message}}</p>
+  </form>
+  <br>
+  <br>
+  <br>
+  <p><strong>Build: {{build}}</strong></p>
+    <p>Total tests: {{total_tests}},  Passed: {{passed}}, Failed: {{failed}}</p>
+  <div>
+        <form action="{{url_for('select_date')}}" method="post">
+              Select date:
+              <input type = "date" name="test_date" value={{dt}}>
+              <input type="Submit" value="Get results">
+        </form>
+  </div>
+  <br>
+  <br>
+
   <div class = page>
+    <br>
     {%for table in tables %}
     {{table|safe}}
     {% endfor %}
   </div>
+
 </div>
 
-<footer class="container-fluid text-center">
-  <p>Aldo 2018, All rights reserved</p>
+<footer class="footer">
+  <p class= "copyright"> © Aldo Group 2018, All rights reserved</p>
 </footer>
-
 </body>
 </html>

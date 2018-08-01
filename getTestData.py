@@ -29,14 +29,20 @@ class test_results():
 
     def get_test_results(self, build_num):
         test_meta_data = self.get_test_meta_data(build_num)
-        test_classes = []
         test_cases = []
         if test_meta_data != 404:
             tests = test_meta_data['tests']
-            for test in tests:
-                test_classes.append(test['classname'])
-            valid_test_classes = self.process_test_class_names(test_classes)
-            for testclass in valid_test_classes:
+            all_test_classes = map(lambda test: test['classname'], tests)
+            unique_test_classes = self.process_test_class_names(all_test_classes)
+            allcases = [(build_num, self.get_test_jira_id(t['name']), t['name'], t['result'], t['message'],)
+                        for tclass in unique_test_classes
+                        for t in tests
+                        if tclass == t['classname'] and
+                        self.get_test_jira_id(t['name']) != None]
+
+            # print(allcases)
+
+            for testclass in unique_test_classes:
                 for test in tests:
                     if testclass == test['classname']:
                         jira_id = self.get_test_jira_id(test['name'])
@@ -45,5 +51,5 @@ class test_results():
                                 {'id':jira_id, 'name':test['name'], 'result':test['result'], 'message':test['message']})
         else:
             print ("Test meta data not received")
-                        # print (test['name'], test['result'], test['message'])
+                        # print (get_test_results_ci['name'], get_test_results_ci['result'], get_test_results_ci['message'])
         return test_cases

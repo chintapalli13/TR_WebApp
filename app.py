@@ -21,7 +21,7 @@ def home():
 def get_new_results_from_CI():
     re = getresultsfromci.getresultsfromci()
     message = re.save_results_in_db()
-    return  render_template('index.html', message= message)
+    return  render_template('index.html', message= message, lr=last_test_run())
 
 
 @app.route('/select_date', methods =['GET', 'POST'])
@@ -44,7 +44,7 @@ def get_view(res, buildnum, passcount, failedcount, date):
     pd.set_option('display.max_colwidth', -1)
     rt = pd.DataFrame.from_records(res, columns=labels)
     return render_template('index.html', tables=[rt.to_html(border=True)], build=buildnum, total_tests=(len(res)),
-                           passed=passcount, failed=failedcount, dt= date)
+                           passed=passcount, failed=failedcount, dt= date, lr=last_test_run())
 
 def get_default_view():
     date = datetime.datetime.today().strftime('%Y-%m-%d')
@@ -57,7 +57,13 @@ def get_default_view():
     pd.set_option('display.max_colwidth', -1)
     rt = pd.DataFrame.from_records(res, columns=labels)
     return render_template('index.html', tables=[rt.to_html(border=True)], build=buildnum, total_tests=(len(res)),
-                           passed=passcount, failed=failedcount, dt=date)
+                           passed=passcount, failed=failedcount, dt=date, lr=last_test_run())
+
+def last_test_run():
+    date = db.db().get_last_run_date()
+    sp= date.split("T")
+    return datetime.datetime.strptime(sp[0], '%Y-%m-%d').strftime('%Y-%m-%d')
+
 
 
 
@@ -65,4 +71,4 @@ def get_default_view():
 if __name__ == "__main__":
     #192.168.0.107
     #10.64.43.111
-    app.run(host='192.168.0.107', debug=True)
+    app.run(host='10.64.43.111', debug=True)

@@ -52,6 +52,17 @@ class db():
          else:
             return " Tests were not run on the selected date, please select another date from 20th July 2018"
 
+    def get_last_run_date(self):
+        conn = self.get_connection()
+        c = conn.cursor()
+        c.execute('select start_time from results order by start_time desc limit 1')
+        rows = c.fetchall()
+        start_time = [x[0] for x in rows]
+        if len(start_time) > 0:
+            return start_time[0]
+        else:
+            return "No last run date available"
+
 
     def get_passed_tests_count(self, build_number):
         conn = self.get_connection()

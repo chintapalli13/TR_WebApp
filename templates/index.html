@@ -4,10 +4,36 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-        body            { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;}
+         ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow: hidden;
+            background-color: #333;
+            position: fixed;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+
+        body            { font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;background-color:#efe0c2;}
         a, h1, h2       { color: #0a276b; }
         h1, h2          { margin: 10; text-align: center; }
-        h1              { border-bottom: 5px solid #242c7f; }
+        h1              { border-bottom: 10px solid #242c7f; width: 100%; }
         h2              { font-size: 1.2em; }
 
         form {
@@ -19,13 +45,15 @@
           border-bottom: 1px solid #C8C8C8;
           border-side: 1px solid #C8C8C8;
           border-collapse: collapse;
-
           padding: 12px;
           margin-bottom: 100px;
+          text-align:left;
+
 
         }
 
         td {
+         width: 25%;
          font-size: 0.9em;
          text-align: centre;
         }
@@ -40,13 +68,14 @@
             page-break-inside: avoid;
         }
 
+
         footer {
            position: fixed;
            left: 0;
            bottom: 0;
            width: 100%;
            height: 50px;
-           background-color: #071538;
+           background-color: #333;
            color: white;
            text-align: center;
         }
@@ -65,9 +94,12 @@
     </style>
 </head>
 <body>
-
+<ul>
+  <li><a class="active" href="home">MFIND Automated Test Results Dashboard</a></li>
+</ul>
+<br>
+<br>
 <div class="container">
-  <h1>MFIND Automated Test Results Dashboard</h1>
   <br>
   <form action="{{url_for('get_new_results_from_CI')}}" method="get">
     <input type="Submit" value="Fetch new results"/>
@@ -76,13 +108,34 @@
   <br>
   <br>
   <br>
-  <p><strong>Build: {{build}}</strong></p>
-    <p>Total tests: {{total_tests}},  Passed: {{passed}}, Failed: {{failed}}</p>
+  <table style="width:100%">
+  <caption>Test summary</caption>
+  <tr style="width: 100%">
+    <th>Total tests</th>
+    <th>Passed</th>
+    <th>Failed</th>
+    <th>CI build</th>
+    <th>Branch</th>
+    <th>Environment</th>
+
+  </tr>
+  <tr style="width: 100%">
+    <td style="text-align: center; background-color: #f4fcfc; width: 15%"><strong>{{total_tests}}</strong></td>
+    <td style="text-align: center; background-color: #8be593; width: 15%"><strong>{{passed}}</strong></td>
+    <td style="text-align: center; background-color: #db1d08; width: 15%"><strong>{{failed}}</strong></td>
+    <td style="text-align: center; background-color: #f7cc60; width: 15%"><strong>{{build}}</strong></td>
+    <td style="text-align: center; background-color: #74bcc1; width: 20%"><strong>mfind-aws</strong></td>
+    <td style="text-align: center; background-color: #f7cc60; width: 25%"><strong>Staging</strong></td>
+  </tr>
+</table>
+  <br>
+  <br>
+
   <div>
         <form action="{{url_for('select_date')}}" method="post">
               Select date:
               <input type = "date" name="test_date" value={{dt}}>
-              <input type="Submit" value="Get results">
+              <input type="Submit" value="View results">
         </form>
   </div>
   <br>

@@ -26,7 +26,11 @@ def get_new_results_from_CI():
 
 @app.route('/select_date', methods =['GET', 'POST'])
 def select_date():
-    date = request.form['test_date']
+    dateselected = request.form['test_date']
+    if not dateselected :
+        date = datetime.datetime.today().strftime('%Y-%m-%d')
+    else:
+        date =dateselected
     res = db.db().read_results_for_date(date)
     buildnum = db.db().get_build_number_for_date(date)
     totaltests = int(len(res))
@@ -59,4 +63,6 @@ def get_default_view():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    #192.168.0.107
+    #10.64.43.111
+    app.run(host='192.168.0.107', debug=True)

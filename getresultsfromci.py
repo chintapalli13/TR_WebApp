@@ -37,7 +37,7 @@ class getresultsfromci():
             return "Results successfully fetched for the last test run"
         else:
             print("Results already exists in db for the build number")
-            return "Results already exists for the last test run, try again tomorrow after 20.30 Hrs est"
+            return "Results already exists for the last test run, try again after 20.30 Hrs est"
 
 
     def read_results(self, buildnumber):
